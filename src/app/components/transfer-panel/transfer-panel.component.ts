@@ -1,10 +1,20 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {TransferItem} from './types';
 
 @Component({
   selector: 'app-transfer-panel',
   templateUrl: './transfer-panel.component.html',
-  styleUrls: ['./transfer-panel.component.scss']
+  styleUrls: ['./transfer-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransferPanelComponent implements OnInit, OnChanges {
 
@@ -14,6 +24,7 @@ export class TransferPanelComponent implements OnInit, OnChanges {
   selecteds: TransferItem[] = [];
   showList: TransferItem[] = [];
   @Output() changed = new EventEmitter<TransferItem[]>();
+  @Output() select = new EventEmitter<number>();
 
   constructor() { }
 
@@ -39,7 +50,7 @@ export class TransferPanelComponent implements OnInit, OnChanges {
     }
   }
 
-  itemClick(target: TransferItem) {
+  /*itemClick(target: TransferItem) {
     console.log(target);
 
     const index = this.targetIndex(target.key);
@@ -51,6 +62,10 @@ export class TransferPanelComponent implements OnInit, OnChanges {
     console.log(this.selecteds);
     // emit the list to outside
     this.changed.emit(this.selecteds);
+  }*/
+
+  itemClick(index: number) {
+    this.select.emit(index);
   }
 
   targetIndex(key: string): number {

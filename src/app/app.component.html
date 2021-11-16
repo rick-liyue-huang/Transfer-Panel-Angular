@@ -4,6 +4,11 @@
 <div class="panel">
   <button class="btn btn-primary mb-3" (click)="setList()">Reset List</button>
   <app-transfer-panel [list]="list" [showSearch]="true" (changed)="onChanged($event)"></app-transfer-panel>
+
 </div>
+
+<section class="m-auto">
+  <app-transfer [sourceData]="list"></app-transfer>
+</section>
 
 
