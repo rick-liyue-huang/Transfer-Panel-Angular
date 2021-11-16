@@ -2,7 +2,10 @@
 <div class="transfer">
   <div class="panel-wrap">
     <app-transfer-panel
-      [list]="leftData" (select)="onSelect($event, 'left')"
+      [showSearch]="search"
+      [list]="leftShowList"
+      (select)="onSelect($event, 'left')"
+      (filtered)="onFiltered($event, 'left')"
     ></app-transfer-panel>
   </div>
   <div class="operations">
@@ -19,7 +22,10 @@
   </div>
   <div class="panel-wrap">
     <app-transfer-panel
-      [list]="rightData" (select)="onSelect($event, 'right')"
+      [showSearch]="search"
+      [list]="rightShowList"
+      (select)="onSelect($event, 'right')"
+      (filtered)="onFiltered($event, 'right')"
     ></app-transfer-panel>
   </div>
 </div>

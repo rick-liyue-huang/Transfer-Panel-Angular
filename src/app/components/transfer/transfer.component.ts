@@ -11,8 +11,12 @@ import {cloneDeep} from 'lodash';
 export class TransferComponent implements OnInit, OnChanges {
 
   @Input() sourceData: TransferItem[] = [];
+  @Input() search = false;
   leftData: TransferItem[] = [];
   rightData: TransferItem[] = [];
+
+  leftShowList: TransferItem[] = [];
+  rightShowList: TransferItem[] = [];
 
   constructor() { }
 
@@ -27,9 +31,11 @@ export class TransferComponent implements OnInit, OnChanges {
         if (!item.direction || item.direction === 'left') {
           item.direction  = 'left';
           this.leftData.push(<TransferItem>item);
+          this.leftShowList.push(<TransferItem>item);
         } else {
           item.direction = 'right';
           this.rightData.push(<TransferItem>item);
+          this.rightShowList.push(<TransferItem>item);
         }
       })
     }
@@ -42,28 +48,44 @@ export class TransferComponent implements OnInit, OnChanges {
 
   onSelect(index: number, direction: Direction) {
     // @ts-ignore
-    this[direction + 'Data'][index].checked = !this[direction + 'Data'][index].checked;
+    this[direction + 'ShowList'][index].checked = !this[direction + 'ShowList'][index].checked;
     // @ts-ignore
-    this[direction + 'Data'] = this[direction + 'Data'].slice();
+    this[direction + 'ShowList'] = this[direction + 'ShowList'].slice();
   }
 
   dropTo(direction: Direction) {
     if (direction === 'left') {
-      this.fromTo('rightData', 'leftData');
+      this.fromTo('right', 'left');
     } else {
-      this.fromTo('leftData', 'rightData')
+      this.fromTo('left', 'right')
     }
   }
 
-  private fromTo(from: 'rightData' | 'leftData', to: 'leftData' | 'rightData') {
-    const moveList: TransferItem[] = cloneDeep(this[from])
-      .filter(item => item.checked)
-      .map(item => {
+  private fromTo(from: Direction, to: Direction) {
+    // @ts-ignore
+    const moveList: TransferItem[] = cloneDeep(this[from + 'ShowList'])
+      .filter((item: any) => item.checked)
+      .map((item: any) => {
         item.checked = false;
         return item;
     });
     console.log(moveList);
-    this[to] = this[to].concat(moveList);
-    this[from]  = this[from].filter(item => !item.checked)
+    // @ts-ignore
+    this[to + 'ShowList'] = this[to + 'ShowList'].concat(moveList);
+    // @ts-ignore
+    this[from + 'ShowList']  = this[from + 'ShowList'].filter(item => !item.checked)
+
+    // change orignal data
+    // @ts-ignore
+    this[to + 'Data'] = this[to + 'Data'].concat(moveList);
+    // @ts-ignore
+    this[from + 'Data']  = this[from + 'Data'].filter(item => {
+      return moveList.findIndex(mItem  => mItem.key === item.key) === -1;
+    })
+  }
+
+  onFiltered(value: string, direction: Direction)  {
+    // @ts-ignore
+    this[direction + 'ShowList'] = this[direction + 'Data'].filter(item => item.value.includes(value))
   }
 }

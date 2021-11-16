@@ -22,9 +22,10 @@ export class TransferPanelComponent implements OnInit, OnChanges {
   @Input() list: TransferItem[] = [];
   @Input() showSearch = false;
   selecteds: TransferItem[] = [];
-  showList: TransferItem[] = [];
+  // showList: TransferItem[] = [];
   @Output() changed = new EventEmitter<TransferItem[]>();
   @Output() select = new EventEmitter<number>();
+  @Output() filtered = new EventEmitter<string>();
 
   constructor() { }
 
@@ -34,7 +35,8 @@ export class TransferPanelComponent implements OnInit, OnChanges {
   onInput(event: Event): void {
     const {value} = event.target as HTMLInputElement;
     console.log(value);
-    this.showList = this.list.filter(item => item.value.includes(value));
+    // this.showList = this.list.filter(item => item.value.includes(value));
+    this.filtered.emit(value);
   }
 
   // only listen the changed 'input' property, here 'list' is input property, so it will load from parent component, so this lifecycle is working
@@ -45,7 +47,7 @@ export class TransferPanelComponent implements OnInit, OnChanges {
       console.log(list.currentValue);
 
       // shallow copy to the new list
-      this.showList = list.currentValue.slice();
+      // this.showList = list.currentValue.slice();
       this.selecteds = this.list.filter(item => item.checked);
     }
   }
