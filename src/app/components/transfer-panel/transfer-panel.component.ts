@@ -9,6 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {TransferItem} from './types';
+import {TransferComponent} from '../transfer/transfer.component';
 
 @Component({
   selector: 'app-transfer-panel',
@@ -27,7 +28,7 @@ export class TransferPanelComponent implements OnInit, OnChanges {
   @Output() select = new EventEmitter<number>();
   @Output() filtered = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(readonly parent: TransferComponent) { }
 
   ngOnInit(): void {
   }

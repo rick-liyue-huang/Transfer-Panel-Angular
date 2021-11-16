@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef} from '@angular/core';
 import {Direction, TransferItem} from '../transfer-panel/types';
 import {cloneDeep} from 'lodash';
 
@@ -17,6 +17,8 @@ export class TransferComponent implements OnInit, OnChanges {
 
   leftShowList: TransferItem[] = [];
   rightShowList: TransferItem[] = [];
+
+  @Input() customTpl!: TemplateRef<any>;
 
   constructor() { }
 

@@ -2,7 +2,10 @@
 <h2>Transfer Panel Angular</h2>
 
 <section class="m-auto">
-  <app-transfer [sourceData]="list" [search]="true"></app-transfer>
+  <app-transfer [sourceData]="list" [search]="true" [customTpl]="myTpl"></app-transfer>
 </section>
+<ng-template #myTpl let-value>
+  <b>custom template -- {{value}}</b>
+</ng-template>
 
 
